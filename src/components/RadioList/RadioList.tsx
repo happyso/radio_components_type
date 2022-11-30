@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useBrand } from '../../hooks/useBrand'
+import { useBrand, useDetail } from '../../hooks/useBrand'
 import RadioButtonGroup from '../RadioGroup/RadioGroup'
+import { Brand, BrandDetail } from '../../types/types'
 
 const PageLayout = styled.div`
     display: flex;
@@ -13,7 +14,14 @@ const PageLayout = styled.div`
 `
 
 export default function RadioList() {
-    const { data: brand, isLoading, status } = useBrand()
+    const { data: brand, isLoading } = useBrand()
+    const {
+        DetailData,
+        isLoading: detailLoading,
+        refetch,
+        userId,
+        setId,
+    } = useDetail()
     // const brand = [
     //     {
     //         id: 28,
@@ -32,28 +40,61 @@ export default function RadioList() {
     //     },
     // ]
 
+    const [resultData, setResultData] = useState<Brand[]>([])
+
     const [selectedValue, setSelectedValue] = useState<String>()
+    const [selectedItems, setSelectedItems] = [1, 2, 3] //example;
 
     function radioGroupHandler(event: React.ChangeEvent<HTMLInputElement>) {
         setSelectedValue(event.target.value)
     }
 
     useEffect(() => {
-        console.log(selectedValue)
-    }, [selectedValue])
+        setId(selectedValue)
+    }, [selectedValue, setId])
+
+    useEffect(() => {
+        refetch()
+        //console.log(userId)
+    }, [userId])
+
+    useEffect(() => {
+        setResultData((prev) => {
+            return makeTree(prev, Number(selectedValue), DetailData)
+        })
+    }, [DetailData])
+
+    useEffect(() => {
+        setResultData(brand)
+    }, [brand])
 
     if (isLoading) return <p>Loading...</p>
+    if (detailLoading) return <p>detail Loading...</p>
 
+    console.log(resultData)
     return (
         <PageLayout>
-            {brand && (
+            {resultData && (
                 <RadioButtonGroup
                     label="Select your Brand:"
                     catagory="brand"
-                    options={brand}
+                    options={resultData}
                     onChange={radioGroupHandler}
                 />
             )}
         </PageLayout>
+    )
+}
+
+function makeTree(
+    prevArr: Brand[] | [],
+    selectedValue: number,
+    addData: BrandDetail[] | []
+): Brand[] {
+    return (
+        addData &&
+        prevArr.map((data) =>
+            data.id === selectedValue ? { ...data, ['child']: addData } : data
+        )
     )
 }

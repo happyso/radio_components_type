@@ -3,8 +3,20 @@ import { InputHTMLAttributes } from 'react'
 export interface IOption {
     id: number
     name: string
-    auctions_count: number
+    username: string
+    email: string
+    title?: string
     disabled?: boolean
+    child?: BrandDetail[]
+}
+
+export interface IOption2 {
+    id: number
+    username: string
+    email: string
+    title: string
+    disabled?: boolean
+    child?: BrandDetail[]
 }
 
 export interface IInputGroup {
@@ -29,5 +41,20 @@ export interface Id {
 
 export interface Brand extends Id {
     name: string
-    auctions_count: number
+    username: string
+    email: string
+    child?: BrandDetail[]
+}
+
+export interface BrandDetail extends Id {
+    title: string
+    username: string
+    email: string
+    child?: BrandDetail[]
+}
+
+export interface Users extends Id {
+    name: string
+    username: string
+    email: string
 }
