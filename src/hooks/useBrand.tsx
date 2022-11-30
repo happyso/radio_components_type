@@ -7,8 +7,12 @@ async function getBrand(): Promise<Brand[]> {
     return data
 }
 
-export function useBrand(): { data: Brand[]; isLoading: boolean } {
+export function useBrand(): {
+    data: Brand[]
+    isLoading: boolean
+    status: string
+} {
     const fallback: Brand[] | undefined = []
-    const { data = fallback, isLoading } = useQuery(['brand'], getBrand)
-    return { data, isLoading }
+    const { status, data = fallback, isLoading } = useQuery(['brand'], getBrand)
+    return { data, isLoading, status }
 }

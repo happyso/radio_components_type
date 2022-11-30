@@ -21,7 +21,7 @@ const RadioButtonGroup = ({
 }: IInputGroup) => {
     function renderOptions() {
         return options.map(({ id, name, disabled }: IOption, index) => {
-            const shortenedOptionLabel = label.replace(/\s+/g, '')
+            const shortenedOptionLabel = name.replace(/\s+/g, '')
             const optionId = `radio-option-${shortenedOptionLabel}`
 
             return (
