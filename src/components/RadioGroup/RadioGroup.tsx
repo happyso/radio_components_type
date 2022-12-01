@@ -20,11 +20,11 @@ const RadioButtonGroup = ({
     onChange,
 }: IInputGroup) => {
     function renderOptions() {
-        return options.map(({ id, name, disabled, child }: IOption, index) => {
+        return options.map(({ id, name, disabled }: IOption, index) => {
             const numberToString = String(id)
             const shortenedOptionLabel = numberToString.replace(/\s+/g, '')
             const optionId = `radio-option-${shortenedOptionLabel}`
-            const hadChild = child ? true : false
+
             return (
                 <>
                     <RadioButton
@@ -34,36 +34,8 @@ const RadioButtonGroup = ({
                         id={optionId}
                         name={catagory}
                         disabled={disabled}
-                        defaultChecked={index === 0}
                         onChange={onChange}
                     />
-
-                    {hadChild &&
-                        child?.map(
-                            (
-                                { id, title, disabled, child }: IOption2,
-                                index
-                            ) => {
-                                const numberToString = String(id)
-                                const shortenedOptionLabel =
-                                    numberToString.replace(/\s+/g, '')
-                                const optionId = `radio-option-${shortenedOptionLabel}`
-                                return (
-                                    <>
-                                        <RadioButton
-                                            value={id}
-                                            label={title}
-                                            key={optionId}
-                                            id={optionId}
-                                            style={{ marginLeft: '80px' }}
-                                            name={catagory}
-                                            disabled={disabled}
-                                            defaultChecked={index === 0}
-                                        />
-                                    </>
-                                )
-                            }
-                        )}
                 </>
             )
         })

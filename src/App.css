@@ -4,3 +4,11 @@
 .selected {
     color: red;
 }
+
+.dropdown {
+    display: none;
+}
+
+.dropdown.show {
+    display: block;
+}

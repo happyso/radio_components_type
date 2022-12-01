@@ -10,6 +10,9 @@ const Wrapper = styled.div`
 `
 
 const RadioButton = ({ label, id, disabled, ...rest }: InputElementProps) => {
+    //@ts-ignore
+    console.log(rest)
+
     return (
         <Wrapper>
             <Radio id={id} type="radio" disabled={disabled} {...rest} />
